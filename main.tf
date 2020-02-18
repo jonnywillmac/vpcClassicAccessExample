@@ -59,7 +59,18 @@ resource "ibm_is_subnet" "subnet3" {
   }
 }
 
-resource "ibm_is_ssh_key" "sshkey" {
+resource "ibm_is_ssh_key" "sshkeyus" {
+  provider   = "ibm.us"
+  name       = "${var.ssh_key_name}-${random_id.name1.hex}"
+  public_key = "${var.ssh_public_key}"
+}
+resource "ibm_is_ssh_key" "sshkeyde" {
+  provider   = "ibm.de"
+  name       = "${var.ssh_key_name}-${random_id.name1.hex}"
+  public_key = "${var.ssh_public_key}"
+}
+resource "ibm_is_ssh_key" "sshkeytok" {
+  provider   = "ibm.tok"
   name       = "${var.ssh_key_name}-${random_id.name1.hex}"
   public_key = "${var.ssh_public_key}"
 }
@@ -71,13 +82,12 @@ resource "ibm_is_instance" "instance1" {
   profile = "${var.profile}"
 
   primary_network_interface = {
-    port_speed = "1000"
     subnet     = "${ibm_is_subnet.subnet1.id}"
   }
 
   vpc       = "${ibm_is_vpc.vpc1.id}"
   zone      = "${local.ZONE1}"
-  keys      = ["${ibm_is_ssh_key.sshkey.id}"]
+  keys      = ["${ibm_is_ssh_key.sshkeyus.id}"]
 }
 
 resource "ibm_is_floating_ip" "floatingip1" {
