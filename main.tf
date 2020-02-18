@@ -11,19 +11,19 @@ locals {
 
 
 resource "ibm_is_vpc" "vpc1" {
-  provider = "${ibm.us}"
+  provider = "ibm.us"
   name = "vpc-${var.region1}-${random_id.name1.hex}"
 }
 resource "ibm_is_vpc" "vpc2" {
-  provider = "${ibm.de}"
+  provider = "ibm.de"
   name = "vpc-${var.region2}-${random_id.name1.hex}"
 }
 resource "ibm_is_vpc" "vpc3" {
-  provider = "${ibm.tok}"
+  provider = "ibm.tok"
   name = "vpc-${var.region3}-${random_id.name1.hex}"
 }
 resource "ibm_is_subnet" "subnet1" {
-  provider = "${ibm.us}"
+  provider = "ibm.us"
   name            = "subnet-${var.region1}-${random_id.name1.hex}"
   vpc             = "${ibm_is_vpc.vpc1.id}"
   zone            = "${local.ZONE1}"
@@ -35,7 +35,7 @@ resource "ibm_is_subnet" "subnet1" {
   }
 }
 resource "ibm_is_subnet" "subnet2" {
-  provider = "${ibm.de}"
+  provider = "ibm.de"
   name            = "subnet-${var.region2}-${random_id.name1.hex}"
   vpc             = "${ibm_is_vpc.vpc2.id}"
   zone            = "${local.ZONE2}"
@@ -47,7 +47,7 @@ resource "ibm_is_subnet" "subnet2" {
   }
 }
 resource "ibm_is_subnet" "subnet3" {
-  provider = "${ibm.tok}"
+  provider = "ibm.tok"
   name            = "subnet-${var.region3}-${random_id.name1.hex}"
   vpc             = "${ibm_is_vpc.vpc3.id}"
   zone            = "${local.ZONE3}"
@@ -65,7 +65,7 @@ resource "ibm_is_ssh_key" "sshkey" {
 }
 
 resource "ibm_is_instance" "instance1" {
-  provider = "${ibm.us}"
+  provider = "ibm.us"
   name    = "instance-${random_id.name1.hex}"
   image   = "${var.image}"
   profile = "${var.profile}"
