@@ -91,11 +91,13 @@ resource "ibm_is_instance" "instance1" {
 }
 
 resource "ibm_is_floating_ip" "floatingip1" {
+  provicer = "ibm.us"
   name   = "fip-${random_id.name1.hex}"
   target = "${ibm_is_instance.instance1.primary_network_interface.0.id}"
 }
 
 resource "ibm_is_security_group_rule" "sg1_tcp_rule" {
+  provider "ibm.us"
   depends_on = ["ibm_is_floating_ip.floatingip1"]
   group      = "${ibm_is_vpc.vpc1.default_security_group}"
   direction  = "inbound"
@@ -108,6 +110,7 @@ resource "ibm_is_security_group_rule" "sg1_tcp_rule" {
 }
 
 resource "ibm_is_security_group_rule" "sg1_icmp_rule" {
+  provider "ibm.us"
   depends_on = ["ibm_is_floating_ip.floatingip1"]
   group      = "${ibm_is_vpc.vpc1.default_security_group}"
   direction  = "inbound"
@@ -120,6 +123,7 @@ resource "ibm_is_security_group_rule" "sg1_icmp_rule" {
 }
 
 resource "ibm_is_security_group_rule" "sg1_app_tcp_rule" {
+  provider "ibm.us"
   depends_on = ["ibm_is_floating_ip.floatingip1"]
   group      = "${ibm_is_vpc.vpc1.default_security_group}"
   direction  = "inbound"
